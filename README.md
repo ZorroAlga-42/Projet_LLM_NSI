@@ -1,5 +1,5 @@
 # Name: PyPrompt ©
-Created by ZorroAlga y Alexi.
+Created by ZorroAlga-42 y al3xi5-14.
 
 - In python
 - Use: - Tkinter
