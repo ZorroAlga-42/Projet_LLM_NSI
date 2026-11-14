@@ -1,9 +1,10 @@
 # Importation --------------------------------------------------------------------------------------
 from tkinter import *
 
-
+# Application --------------------------------------------------------------------------------------
 LARGEUR = 600
 HAUTEUR = 400
+
 # deffinition de la fenetre principale de l'app
 app_principale = Tk()
 app_principale.title("PyPrompt")

@@ -1,4 +1,4 @@
-# Name: PyPrompt ©
+# Name: PyPrompt © He is not terminate
 Created by ZorroAlga-42 y al3xi5-14.
 
 - In python
