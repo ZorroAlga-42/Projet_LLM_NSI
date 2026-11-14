@@ -11,3 +11,6 @@ Created by ZorroAlga-42 y al3xi5-14.
 - Dowload this repo github
 - Create a virtual environment for this project
 - Run PyPrompt.py
+
+# Initialisation:
+- complet the .env file with your information
