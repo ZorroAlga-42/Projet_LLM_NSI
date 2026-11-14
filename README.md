@@ -2,7 +2,7 @@
 Created by ZorroAlga-42 y al3xi5-14.
 
 - In python
-- Use: - Tkinter
+- Use: - Tkinter - python-dotenv
 
 # What is this application:
 - This application is a chatbot for LLM.
