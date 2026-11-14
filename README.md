@@ -9,4 +9,5 @@ Created by ZorroAlga-42 y al3xi5-14.
 
 # Intsalation:
 - Dowload this repo github
+- Create a virtual environment for this project
 - Run PyPrompt.py
