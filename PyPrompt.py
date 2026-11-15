@@ -17,9 +17,9 @@ LARGEUR = 600
 HAUTEUR = 400
 
 # deffinition de la fenetre principale de l'app
-app_principale = Tk()
+app_principale = Tk() # Def que app_principale est un fenetre
 app_principale.title("PyPrompt")
-app_principale.geometry(f"{LARGEUR}x{HAUTEUR}")
+app_principale.geometry(f"{LARGEUR}x{HAUTEUR}") # Dimantion de cette fenetre
 
 # Titre de l'applicaion
 titre = Label(app_principale, text = "ChatBot PyPrompt", font = ("Arial", 20))
