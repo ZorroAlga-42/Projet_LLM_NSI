@@ -1,9 +1,9 @@
 # Importation --------------------------------------------------------------------------------------
 import os
 import ctypes
+from google import *
 from tkinter import *
 from tkinter import ttk
-from google import *
 from dotenv import load_dotenv
 
 # Loader les variable dans le fichier .env
@@ -18,16 +18,25 @@ else:
 # Definition ---------------------------------------------------------------------------------------
 LARGEUR = 600
 HAUTEUR = 400
+GEMINI_API = os.getenv("GOOGLE_KEY_API")
 
-Gemini_API = os.getenv("GOOGLE_KEY_API")
-def send_mesage(query, API_KEY):
-    API_KEY = Gemini_API
-    query = chat_box.get("1.0", END).strip()
-    if query == None or API_KEY == "":
-        print(f"[DEBUG]: Rien dans le champs de texte // Mauvaise clé api dans .env")
+def send_mesage(query):
+    API_KEY = GEMINI_API
+    if not query:
+        print(f"[DEBUG]: Rien dans le champ de texte")
+        return False    
+    if not API_KEY:
+        print(f"[DEBUG]: Vérifier la clé API dans le .env")
         return False
     print(f"[DEBUG]: Tout OK envoie du message...")
-    
+    try:
+        client = genai.Client(api_key=API_KEY)
+        response = client.models.generate_content(model='gemini-2.5-flash', contents=query)
+        print(f"[REPONSE GEMINI]: {response.text}")
+        return response.text
+    except Exception as e:
+        print(f"[DEBUG]: Erreur lors de l'appel à l'API : {e}")
+        return False
 
 
 # Application --------------------------------------------------------------------------------------
@@ -44,6 +53,8 @@ titre.pack(pady= 20)
 
 chat_box = Entry(app_principale, width=30, font="Arial")
 chat_box.pack()
+B_send = Button(app_principale, text="▶️", command=lambda: send_mesage(chat_box.get))
+Button.pack(B_send)
 
 # Boucle principale
 app_principale.mainloop()
