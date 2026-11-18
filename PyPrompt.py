@@ -28,7 +28,7 @@ def send_message(query):
     if API_KEY is None:
         print(f"[DEBUG]: Vérifier la clé API dans le .env")
         return False
-    print(f"[DEBUG]: Tout OK envoie du message...")
+    print(f"[DEBUG]: Tout OK envoi du message...")
     try:
         client = genai.Client(api_key=API_KEY)
         response = client.models.generate_content(model='gemini-2.5-flash', contents=query)
