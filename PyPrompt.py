@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 # Definition ---------------------------------------------------------------------------------------
 LARGEUR = 600
 HAUTEUR = 400
+LARGEURMIN = 300
+HAUTEURMIN = 200
 
 # Loader les variables dans le fichier .env
 load_dotenv(dotenv_path=os.path.join("Ressource", ".env"))
@@ -43,6 +45,12 @@ def send_message(query):
         print(f"[DEBUG]: Erreur lors de l'appel à l'API : {error}")
         return False
 
+def show_parametre():
+    window_param = Tk()
+    window_param.title("Paramètres")
+    window_param.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
+
+
 # Application --------------------------------------------------------------------------------------
 
 # definition de la fenetre principale de l'app
@@ -53,12 +61,15 @@ app_principale.geometry(f"{LARGEUR}x{HAUTEUR}") # Dimension de cette fenetre
 
 # Titre de l'applicaion
 titre = Label(app_principale, text = "ChatBot PyPrompt", font = ("Arial", 20))
-titre.pack(pady= 20)
+titre.pack(pady=20)
 
 chat_box = Entry(app_principale, width=30, font="Arial")
 chat_box.pack()
-B_send = Button(app_principale, text="▶️", command=lambda: send_message(chat_box.get()))
-Button.pack(B_send)
+Button_send = Button(app_principale, text="▶️", command=lambda: send_message(chat_box.get()))
+Button.pack(Button_send)
+menu_bar = Menu(app_principale)
+menu_bar.add_command(label="Paramètres", command=lambda: show_parametre()) # Bouton Paramètres
+app_principale.config(menu=menu_bar)
 
 # Boucle principale
 app_principale.mainloop()
