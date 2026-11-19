@@ -11,8 +11,30 @@ from dotenv import load_dotenv
 # Definition ---------------------------------------------------------------------------------------
 LARGEUR = 600
 HAUTEUR = 400
-LARGEURMIN = 300
-HAUTEURMIN = 200
+LARGEURMIN = LARGEUR // 2
+HAUTEURMIN = HAUTEUR // 2
+
+class Window(Tk):
+    def __init__(self):
+        super().__init__()
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(99, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(99, weight=1)
+        self.title("PyPrompt")
+        self.iconbitmap("./Ressource/Images/Icon.ico")
+        self.geometry(f"{LARGEUR}x{HAUTEUR}") # Dimension de cette fenetre
+        
+        # Titre de l'applicaion
+        titre = Label(self, text = "ChatBot PyPrompt", font = ("Arial", 20))
+        titre.grid(row=0, column=49)
+        chat_box = Entry(self, width=30, font="Arial")
+        chat_box.grid(row=99, column=98)
+        Button_send = Button(self, text="▶️", command=lambda: send_message(self.chat_box.get()))
+        Button_send.grid(row=99, column=99)
+        menu_bar = Menu(self)
+        menu_bar.add_command(label="Paramètres", command=lambda: show_parametre()) # Bouton Paramètres
+        self.config(menu=menu_bar)
 
 # Loader les variables dans le fichier .env
 load_dotenv(dotenv_path=os.path.join("Ressource", ".env"))
@@ -39,37 +61,20 @@ def send_message(query):
         client = genai.Client(api_key=API_KEY)
         response = client.models.generate_content(model='gemini-3.5-flash-lite', contents=query)
         print(f"[DEBUG]: GEMINI: {response.text}")
-        chat_box.delete(0, END)
+        Main_Window.chat_box.delete(0, END)
         return response.text
     except Exception as error:
         print(f"[DEBUG]: Erreur lors de l'appel à l'API : {error}")
         return False
 
 def show_parametre():
-    window_param = Tk()
-    window_param.title("Paramètres")
-    window_param.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
+    Param_Window = Window()
+    Param_Window.title("Paramètres")
+    Param_Window.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
+    Param_Window.iconbitmap("./Ressource/Images/Parametre.ico")
 
 
 # Application --------------------------------------------------------------------------------------
-
-# definition de la fenetre principale de l'app
-app_principale = Tk() # Def que app_principale est un fenetre
-app_principale.title("PyPrompt")
-app_principale.iconbitmap("./Ressource/Images/Icon.ico")
-app_principale.geometry(f"{LARGEUR}x{HAUTEUR}") # Dimension de cette fenetre
-
-# Titre de l'applicaion
-titre = Label(app_principale, text = "ChatBot PyPrompt", font = ("Arial", 20))
-titre.pack(pady=20)
-
-chat_box = Entry(app_principale, width=30, font="Arial")
-chat_box.pack()
-Button_send = Button(app_principale, text="▶️", command=lambda: send_message(chat_box.get()))
-Button.pack(Button_send)
-menu_bar = Menu(app_principale)
-menu_bar.add_command(label="Paramètres", command=lambda: show_parametre()) # Bouton Paramètres
-app_principale.config(menu=menu_bar)
-
+Main_Window = Window()
 # Boucle principale
-app_principale.mainloop()
+Main_Window.mainloop()
