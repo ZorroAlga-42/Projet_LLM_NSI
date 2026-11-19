@@ -12,7 +12,7 @@ This application is a chatbot interface for LLMs.
 ## Installation
 1. Download this repository from GitHub.
 2. Create and activate a virtual environment for this project.
-3. Install the required dependencies (e.g., `python -m pip install python-dotenv`).
+3. Install the required dependencies (e.g., `python -m pip install -r requierement.txt`).
 4. Run `PyPrompt.py`.
 
 ## Initialization
