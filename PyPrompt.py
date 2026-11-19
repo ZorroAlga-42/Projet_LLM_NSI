@@ -22,22 +22,21 @@ GEMINI_API = os.getenv("GOOGLE_KEY_API")
 
 def send_message(query):
     API_KEY = GEMINI_API
-    if query is None:
+    if query == "":
         print(f"[DEBUG]: Rien dans le champ de texte")
         return False
     if API_KEY is None:
         print(f"[DEBUG]: Vérifier la clé API dans le .env")
         return False
-    print(f"[DEBUG]: Tout OK envoi du message {query}")
+    print(f"[DEBUG]: Tout OK envoi du message: {query}")
     try:
-        client = genai.Client(api_key=API_KEY)
+        client = ganei.Client(api_key=API_KEY)
         response = client.models.generate_content(model='gemini-2.5-flash', contents=query)
         print(f"[REPONSE GEMINI]: {response.text}")
         return response.text
-    except Exception as e:
-        print(f"[DEBUG]: Erreur lors de l'appel à l'API : {e}")
+    except Exception as error:
+        print(f"[DEBUG]: Erreur lors de l'appel à l'API : {error}")
         return False
-
 
 # Application --------------------------------------------------------------------------------------
 
@@ -53,7 +52,7 @@ titre.pack(pady= 20)
 
 chat_box = Entry(app_principale, width=30, font="Arial")
 chat_box.pack()
-B_send = Button(app_principale, text="▶️", command=lambda: send_message(chat_box.get))
+B_send = Button(app_principale, text="▶️", command=lambda: send_message(chat_box.get()))
 Button.pack(B_send)
 
 # Boucle principale
