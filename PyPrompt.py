@@ -21,20 +21,6 @@ class Window(Tk):
         self.grid_rowconfigure(99, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(99, weight=1)
-        self.title("PyPrompt")
-        self.iconbitmap("./Ressource/Images/Icon.ico")
-        self.geometry(f"{LARGEUR}x{HAUTEUR}") # Dimension de cette fenetre
-        
-        # Titre de l'applicaion
-        titre = Label(self, text = "ChatBot PyPrompt", font = ("Arial", 20))
-        titre.grid(row=0, column=49)
-        chat_box = Entry(self, width=30, font="Arial")
-        chat_box.grid(row=99, column=98)
-        Button_send = Button(self, text="▶️", command=lambda: send_message(self.chat_box.get()))
-        Button_send.grid(row=99, column=99)
-        menu_bar = Menu(self)
-        menu_bar.add_command(label="Paramètres", command=lambda: show_parametre()) # Bouton Paramètres
-        self.config(menu=menu_bar)
 
 # Loader les variables dans le fichier .env
 load_dotenv(dotenv_path=os.path.join("Ressource", ".env"))
@@ -67,14 +53,26 @@ def send_message(query):
         print(f"[DEBUG]: Erreur lors de l'appel à l'API : {error}")
         return False
 
+def show_main_app(app):
+    app.geometry(f"{LARGEUR}x{HAUTEUR}")
+    app.titre = Label(app, text = "ChatBot PyPrompt", font = ("Arial", 20))
+    app.titre.grid(row=0, column=49)
+    app.chat_box = Entry(app, width=30, font="Arial")
+    app.chat_box.grid(row=99, column=98)
+    app.Button_send = Button(app, text="▶️", command=lambda: send_message(app.chat_box.get()))
+    app.Button_send.grid(row=99, column=99)
+    menu_bar = Menu(app)
+    menu_bar.add_command(label="Paramètres", command=lambda: show_parametre()) # Bouton Paramètres
+    app.config(menu=menu_bar)
+
 def show_parametre():
     Param_Window = Window()
     Param_Window.title("Paramètres")
     Param_Window.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
     Param_Window.iconbitmap("./Ressource/Images/Parametre.ico")
 
-
 # Application --------------------------------------------------------------------------------------
 Main_Window = Window()
+show_main_app(Main_Window)
 # Boucle principale
 Main_Window.mainloop()
