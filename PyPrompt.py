@@ -55,6 +55,9 @@ def send_message(query):
         print(f"[DEBUG]: Erreur lors de l'appel à l'API : {error}")
         return False
 
+def save_in_env(query):
+    GEMINI_API = query
+
 def show_main_app(app):
     app.geometry(f"{LARGEUR}x{HAUTEUR}")
     app.titre = Label(app, text = "ChatBot PyPrompt", font = ("Arial", 20))
@@ -81,10 +84,12 @@ def show_api_key():
     API_Window.title("Clé API")
     API_Window.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
     API_Window.iconbitmap("./Ressource/Images/Parametre.ico")
-
+    writh_api = Entry(API_Window, width=30, font="Arial")
+    writh_api.grid(row=0, column=0)
+    Button_save = Button(Label="Save", command=lambda: save_in_env(API_Window.writh_api.get()))
+    Button_save.grid(row=50, column=0)
 
 # Application --------------------------------------------------------------------------------------
 Main_Window = Window()
 show_main_app(Main_Window)
-# Boucle principale
-Main_Window.mainloop()
+Main_Window.mainloop() # Boucle principale
