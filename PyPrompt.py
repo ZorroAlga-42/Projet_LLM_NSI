@@ -48,6 +48,8 @@ def send_message(query):
         response = client.models.generate_content(model='gemini-3.5-flash-lite', contents=query)
         print(f"[DEBUG]: GEMINI: {response.text}")
         Main_Window.chat_box.delete(0, END)
+        Main_Window.responce_box.delete(0, END)
+        Main_Window.responce_box.insert(0, response.text)
         return response.text
     except Exception as error:
         print(f"[DEBUG]: Erreur lors de l'appel à l'API : {error}")
@@ -59,10 +61,13 @@ def show_main_app(app):
     app.titre.grid(row=0, column=49)
     app.chat_box = Entry(app, width=30, font="Arial")
     app.chat_box.grid(row=99, column=98)
+    app.responce_box = Entry(app, width=30, font="Arial")
+    app.responce_box.grid(row=97, column=98)
     app.Button_send = Button(app, text="▶️", command=lambda: send_message(app.chat_box.get()))
     app.Button_send.grid(row=99, column=99)
     menu_bar = Menu(app)
     menu_bar.add_command(label="Paramètres", command=lambda: show_parametre()) # Bouton Paramètres
+    menu_bar.add_command(label="Clé API", command=lambda: show_api_key()) # Bouton Clé API
     app.config(menu=menu_bar)
 
 def show_parametre():
@@ -70,6 +75,13 @@ def show_parametre():
     Param_Window.title("Paramètres")
     Param_Window.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
     Param_Window.iconbitmap("./Ressource/Images/Parametre.ico")
+
+def show_api_key():
+    API_Window = Window()
+    API_Window.title("Clé API")
+    API_Window.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
+    API_Window.iconbitmap("./Ressource/Images/Parametre.ico")
+
 
 # Application --------------------------------------------------------------------------------------
 Main_Window = Window()
