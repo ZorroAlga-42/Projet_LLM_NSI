@@ -1,0 +1,3 @@
+def right_api(cle):
+    with open(".env", "w", encoding="utf-8") as fichier:
+        fichier.write(f"API_KEY={cle}\n")
