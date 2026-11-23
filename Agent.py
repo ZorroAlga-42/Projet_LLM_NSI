@@ -1,4 +1,12 @@
 # Importation --------------------------------------------------------------------------------------
+import os
+import ctypes
+from google import *
+from tkinter import *
+from tkinter import ttk
+from google import genai
+from dotenv import load_dotenv
+
 from Main import GEMINI_API
 from Main import Main_Window
 
