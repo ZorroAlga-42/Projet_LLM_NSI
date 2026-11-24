@@ -8,7 +8,7 @@ from google import genai
 from dotenv import load_dotenv
 
 # Fonction -----------------------------------------------------------------------------------------
-def right_api(cle):
+def right_api(cle, who):
     chemin = "./Ressource/.env"
     try:
         with open(chemin, "r", encoding="utf-8") as f:
@@ -17,11 +17,11 @@ def right_api(cle):
         lignes = []
     trouve = False
     for i, ligne in enumerate(lignes):
-        if ligne.startswith("GOOGLE_KEY_API = "):
-            lignes[i] = f"GOOGLE_KEY_API = {cle}\n"
+        if ligne.startswith(f"{who} = "):
+            lignes[i] = f"{who} = {cle}\n"
             trouve = True
             break
     if not trouve:
-        lignes.append(f"GOOGLE_KEY_API = {cle}\n")
+        lignes.append(f"{who} = {cle}\n")
     with open(chemin, "w", encoding="utf-8") as f:
         f.writelines(lignes)

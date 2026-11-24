@@ -8,12 +8,14 @@ from google import genai
 from dotenv import load_dotenv
 
 from Outils import right_api
-from Agent import send_message
+from Agent import send_message, Agent_use
 
 # Loader le fichier .env ---------------------------------------------------------------------------
 load_dotenv(dotenv_path=os.path.join("Ressource", ".env"))
 TEST = os.getenv("TEST_CONNECTION_VARIABLE")
-GEMINI_API = os.getenv("GOOGLE_KEY_API")
+
+Agents = ["Gemini", "OpenIA", "Antropic"]
+KEY_API_USE = os.getenv(Agent_use(Agents[0]))
 
 # Fonction -----------------------------------------------------------------------------------------
 LARGEUR = 600
@@ -30,18 +32,15 @@ class Window(Tk): # Classe pour avoir une grille quand une fenetre est cree avec
             self.columnconfigure(c, weight=1)
         for l in range(LIGNES):
             self.rowconfigure(l, weight=1)
+
 def afficher_grille(app):
     """Affiche un quadrillage visible pour déboguer la grille tkinter."""
     for r in range(LIGNES):
         app.rowconfigure(r, weight=1)
         for c in range(COLONES):
             app.columnconfigure(c, weight=1)
-            cellule = Frame(app, bg="white",
-                            highlightbackground="red",  # couleur de la bordure
-                            highlightthickness=1        # épaisseur de la bordure
-                            )
+            cellule = Frame(app, bg="white", highlightbackground="red", highlightthickness=1)
             cellule.grid(row=r, column=c, sticky="nsew")
-            # Petit label pour voir les coordonnées de chaque cellule
             Label(cellule, text=f"{r},{c}", fg="red", bg="white").pack()
 
 def main_window(app):
@@ -52,8 +51,9 @@ def main_window(app):
     app.iconbitmap("./Ressource/Images/Icon.ico")
     app.titre = Label(app, text = "ChatBot PyPrompt", font = ("Arial", 20))
     app.chat_box = Text(app, width=30, height=4, font=("Arial", 12))
-    app.response_box = Text(app, width=40, height=15, state=DISABLED, font=("Arial", 12))
-    app.send_button = Button(app, text = ">", command=lambda: send_message(app.chat_box.get("1.0", "end-1c"), app))
+    app.response_box = Text(app, width=40, height=15, font=("Arial", 12))
+    app.send_button = Button(app, text = ">", command=lambda: send_message(app.chat_box.get("1.0", "end-1c"),
+                                                                           app, KEY_API_USE))
     app.menu_bar = Menu(app)
     app.param_menu = Menu(app.menu_bar)
     app.config(menu=app.menu_bar)
@@ -72,12 +72,15 @@ def parametres(app):
     app.title("Paramètres")
     app.iconbitmap("./Ressource/Images/Parametre.ico")
     app.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
+    app.selec_agent = ttk.Combobox(app, values=Agents, state="readonly", font=("Arial", 12))
     app.api_box = Entry(app, width=25, font=("Arial", 12))
-    app.save_api = Button(app, text="Save", command=lambda: right_api(app.api_box.get()))
+    app.save_api = Button(app, text="Save", command=lambda: right_api(app.api_box.get(),
+                                                                      Agent_use(app.selec_agent.get())))
 
     # Placement des elements sur la grille
     app.api_box.grid(row=1, column=1, columnspan=7, rowspan=2)
     app.save_api.grid(row=1, column=8, columnspan=2, rowspan=2)
+    app.selec_agent.grid(row=3, column=1, columnspan=7)
 
 # Boucle principale de l'application
 main = Window()
