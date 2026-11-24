@@ -7,11 +7,12 @@ from tkinter import ttk
 from google import genai
 from dotenv import load_dotenv
 
-from Main import GEMINI_API
-from Main import Main_Window
+# Loader le fichier .env ---------------------------------------------------------------------------
+load_dotenv(dotenv_path=os.path.join("Ressource", ".env"))
+GEMINI_API = os.getenv("GOOGLE_KEY_API")
 
 # Fonction -----------------------------------------------------------------------------------------
-def send_message(query):
+def send_message(query, app):
     API_KEY = GEMINI_API
     if query == "":
         print(f"[DEBUG]: Rien dans le champ de texte")
@@ -25,9 +26,9 @@ def send_message(query):
         client = genai.Client(api_key=API_KEY)
         response = client.models.generate_content(model='gemini-3.5-flash-lite', contents=query)
         print(f"[DEBUG]: GEMINI: {response.text}")
-        Main_Window.chat_box.delete(0, END)
-        Main_Window.responce_box.delete(0, END)
-        Main_Window.responce_box.insert(0, response.text)
+        app.chat_box.delete("1.0", END)
+        app.response_box.delete("1.0", END)
+        app.response_box.insert("1.0", response.text)
         return response.text
     except Exception as error:
         print(f"[DEBUG]: Erreur lors de l'appel à l'API : {error}")

@@ -54,7 +54,7 @@ def main_window(app):
     app.iconbitmap("./Ressource/Images/Icon.ico")
     app.titre = Label(app, text = "ChatBot PyPrompt", font = ("Arial", 20))
     app.chat_box = Text(app, width=30, height=4)
-    app.send_button = Button(label = ">", command=lambda: send_message(app.chat_box.get("1.0", END).strip()))
+    app.send_button = Button(app, text = ">", command=lambda: send_message(app.chat_box.get(), app))
 
     # Placement des widgets dans la grille
     app.titre.grid(row=0, column=2, columnspan=6)
