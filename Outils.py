@@ -25,3 +25,15 @@ def right_api(cle, who):
         lignes.append(f"{who} = {cle}\n")
     with open(chemin, "w", encoding="utf-8") as f:
         f.writelines(lignes)
+
+
+# Couleur de fond --------------------------------------------------------------------------------------
+def set_background_color(color):
+    try:
+        ctypes.windll.user32.SetSysColors(1, ctypes.pointer(ctypes.c_int(15)), ctypes.pointer(ctypes.c_int(int(color[1:], 16))))
+    except Exception as e:
+        print(f"[DEBUG]: Erreur lors du changement de couleur de fond : {e}")
+
+def set_background(fenetre, couleur):
+    fenetre.configure(bg=couleur)
+    
