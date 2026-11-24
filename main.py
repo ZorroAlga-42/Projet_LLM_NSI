@@ -54,12 +54,22 @@ def main_window(app):
     app.iconbitmap("./Ressource/Images/Icon.ico")
     app.titre = Label(app, text = "ChatBot PyPrompt", font = ("Arial", 20))
     app.chat_box = Text(app, width=30, height=4)
-    app.send_button = Button(app, text = ">", command=lambda: send_message(app.chat_box.get(), app))
+    app.response_box = Text(app, width=40, height=15)
+    app.send_button = Button(app, text = ">", command=lambda: send_message(app.chat_box.get("1.0", "end-1c"), app))
+    app.menu_bar = Menu(app)
+    app.param_menu = Menu(app.menu_bar)
+    app.param_menu.add_command(label="Paramètres", command=lambda: parametres(app))
 
-    # Placement des widgets dans la grille
+    # Placement des elements sur la grille
     app.titre.grid(row=0, column=2, columnspan=6)
     app.chat_box.grid(row=7, column=6, columnspan=3, rowspan=2)
-    app.send_button.grid(row=7, column=8, columnspan=2, rowspan=2)
+    app.response_box.grid(row=1, column=6, columnspan=4, rowspan=6)
+    app.send_button.grid(row=7, column=9, columnspan=2, rowspan=2)
+
+def parametres(app):
+    param_window = Toplevel(app)
+    param_window.title("Paramètres")
+    param_window.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
 
 # Boucle principale de l'application
 main = Window()
