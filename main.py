@@ -36,12 +36,10 @@ def afficher_grille(app):
         app.rowconfigure(r, weight=1)
         for c in range(COLONES):
             app.columnconfigure(c, weight=1)
-            cellule = Frame(
-                app,
-                bg="white",
-                highlightbackground="red",  # couleur de la bordure
-                highlightthickness=1        # épaisseur de la bordure
-            )
+            cellule = Frame(app, bg="white",
+                            highlightbackground="red",  # couleur de la bordure
+                            highlightthickness=1        # épaisseur de la bordure
+                            )
             cellule.grid(row=r, column=c, sticky="nsew")
             # Petit label pour voir les coordonnées de chaque cellule
             Label(cellule, text=f"{r},{c}", fg="red", bg="white").pack()
@@ -53,11 +51,13 @@ def main_window(app):
     app.title("ChatBot PyPrompt")
     app.iconbitmap("./Ressource/Images/Icon.ico")
     app.titre = Label(app, text = "ChatBot PyPrompt", font = ("Arial", 20))
-    app.chat_box = Text(app, width=30, height=4)
-    app.response_box = Text(app, width=40, height=15)
+    app.chat_box = Text(app, width=30, height=4, font=("Arial", 12))
+    app.response_box = Text(app, width=40, height=15, state=DISABLED, font=("Arial", 12))
     app.send_button = Button(app, text = ">", command=lambda: send_message(app.chat_box.get("1.0", "end-1c"), app))
     app.menu_bar = Menu(app)
     app.param_menu = Menu(app.menu_bar)
+    app.config(menu=app.menu_bar)
+    app.menu_bar.add_cascade(label="Options", menu=app.param_menu)
     app.param_menu.add_command(label="Paramètres", command=lambda: parametres(app))
 
     # Placement des elements sur la grille
@@ -67,9 +67,17 @@ def main_window(app):
     app.send_button.grid(row=7, column=9, columnspan=2, rowspan=2)
 
 def parametres(app):
-    param_window = Toplevel(app)
-    param_window.title("Paramètres")
-    param_window.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
+    app = Toplevel(app)
+    afficher_grille(app) # Pour le debug
+    app.title("Paramètres")
+    app.iconbitmap("./Ressource/Images/Parametre.ico")
+    app.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
+    app.api_box = Entry(app, width=25, font=("Arial", 12))
+    app.save_api = Button(app, text="Save", command=lambda: right_api(app.api_box.get()))
+
+    # Placement des elements sur la grille
+    app.api_box.grid(row=1, column=1, columnspan=7, rowspan=2)
+    app.save_api.grid(row=1, column=8, columnspan=2, rowspan=2)
 
 # Boucle principale de l'application
 main = Window()

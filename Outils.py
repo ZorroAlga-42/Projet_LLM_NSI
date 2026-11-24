@@ -9,6 +9,19 @@ from dotenv import load_dotenv
 
 # Fonction -----------------------------------------------------------------------------------------
 def right_api(cle):
-    with open(".env", "w", encoding="utf-8") as fichier:
-        fichier.write(f"API_KEY={cle}\n")
-        print(f"[DEBUG] La clé {cle} a été écrite dans le fichier .env")
+    chemin = "./Ressource/.env"
+    try:
+        with open(chemin, "r", encoding="utf-8") as f:
+            lignes = f.readlines()
+    except FileNotFoundError:
+        lignes = []
+    trouve = False
+    for i, ligne in enumerate(lignes):
+        if ligne.startswith("GOOGLE_KEY_API = "):
+            lignes[i] = f"GOOGLE_KEY_API = {cle}\n"
+            trouve = True
+            break
+    if not trouve:
+        lignes.append(f"GOOGLE_KEY_API = {cle}\n")
+    with open(chemin, "w", encoding="utf-8") as f:
+        f.writelines(lignes)

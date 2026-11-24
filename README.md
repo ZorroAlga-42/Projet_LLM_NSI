@@ -5,6 +5,7 @@ Created by ZorroAlga-42 and al3xi5-14.
 - Python
 - Tkinter
 - python-dotenv
+- google
 
 ## Description
 This application is a chatbot interface for LLMs.
