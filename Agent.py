@@ -36,8 +36,8 @@ def send_message(query, app, Api_Key):
 def Agent_use(Agent: str):
     if Agent == "Gemini":
         return "GOOGLE_KEY_API"
-    if Agent == "OpenIA":
-        return "OPENIA_KEY_API"
-    if Agent == "Antropic":
-        return "ANTROPIC_API_KEY"
+    if Agent == "OpenAI":
+        return "OPENAI_KEY_API"
+    if Agent == "Anthropic":
+        return "ANTHROPIC_API_KEY"
 

@@ -1,6 +1,7 @@
 # Importation --------------------------------------------------------------------------------------
 import os
 import ctypes
+import json
 from google import *
 from tkinter import *
 from tkinter import ttk
@@ -28,12 +29,20 @@ def right_api(cle, who):
 
 
 # Couleur de fond --------------------------------------------------------------------------------------
-def set_background_color(color):
-    try:
-        ctypes.windll.user32.SetSysColors(1, ctypes.pointer(ctypes.c_int(15)), ctypes.pointer(ctypes.c_int(int(color[1:], 16))))
-    except Exception as e:
-        print(f"[DEBUG]: Erreur lors du changement de couleur de fond : {e}")
+def set_background(couleur, windows):
+    couleurs = {
+        "Blanc": "#FFFFFF",
+        "Noir": "#000000",
+        "Rouge": "#FF0000",
+        "Vert": "#00FF00",
+        "Bleu": "#0000FF",
+        "Add": "#1696C0",
+    }
+    couleur_fond = couleurs.get(couleur, couleur)
 
-def set_background(fenetre, couleur):
-    fenetre.configure(bg=couleur)
-    
+    for window in windows:
+        window.configure(bg=couleur_fond)
+
+    os.makedirs("./Paramètre", exist_ok=True)
+    with open("./Paramètre/parametres.json", "w", encoding="utf-8") as f:
+        json.dump({"couleur_fond": couleur_fond}, f)

@@ -1,20 +1,21 @@
 # Importation --------------------------------------------------------------------------------------
 import os
 import ctypes
+import json
 from google import *
 from tkinter import *
 from tkinter import ttk
 from google import genai
 from dotenv import load_dotenv
 
-from Outils import right_api
+from Outils import right_api, set_background
 from Agent import send_message, Agent_use
 
 # Loader le fichier .env ---------------------------------------------------------------------------
 load_dotenv(dotenv_path=os.path.join("Ressource", ".env"))
 TEST = os.getenv("TEST_CONNECTION_VARIABLE")
 
-Agents = ["Gemini", "OpenIA", "Antropic"]
+Agents = ["Gemini", "OpenAI", "Anthropic"]
 KEY_API_USE = os.getenv(Agent_use(Agents[0]))
 
 # Fonction -----------------------------------------------------------------------------------------
@@ -24,6 +25,7 @@ LARGEURMIN = LARGEUR // 2
 HAUTEURMIN = HAUTEUR // 2
 COLONES = 10
 LIGNES = 10
+Couleurs = ["Blanc", "Noir", "Rouge", "Vert", "Bleu", "Add"]
 
 class Window(Tk): # Classe pour avoir une grille quand une fenetre est cree avec.
     def __init__(self ):
@@ -34,7 +36,7 @@ class Window(Tk): # Classe pour avoir une grille quand une fenetre est cree avec
             self.rowconfigure(l, weight=1)
 
 def afficher_grille(app):
-    """Affiche un quadrillage visible pour déboguer la grille tkinter."""
+    """Affiche un quadrillage visible pour débuguer la grille tkinter."""
     for r in range(LIGNES):
         app.rowconfigure(r, weight=1)
         for c in range(COLONES):
@@ -45,7 +47,7 @@ def afficher_grille(app):
 
 def main_window(app):
     # objet de la fenetre
-    afficher_grille(app) # Pour le debug
+    #afficher_grille(app) # Pour le debug
     app.geometry(f"{LARGEUR}x{HAUTEUR}")
     app.title("ChatBot PyPrompt")
     app.iconbitmap("./Ressource/Images/Icon.ico")
@@ -67,8 +69,9 @@ def main_window(app):
     app.send_button.grid(row=7, column=9, columnspan=2, rowspan=2)
 
 def parametres(app):
-    app = Toplevel(app)
-    afficher_grille(app) # Pour le debug
+    root = app
+    app = Toplevel(root)
+    #afficher_grille(app) # Pour le debug
     app.title("Paramètres")
     app.iconbitmap("./Ressource/Images/Parametre.ico")
     app.geometry(f"{LARGEURMIN}x{HAUTEURMIN}")
@@ -76,11 +79,23 @@ def parametres(app):
     app.api_box = Entry(app, width=25, font=("Arial", 12))
     app.save_api = Button(app, text="Save", command=lambda: right_api(app.api_box.get(),
                                                                       Agent_use(app.selec_agent.get())))
+    app.color_app = ttk.Combobox(app, values=Couleurs, state="readonly", font=("Arial", 12))
+    app.color_app.current(0)
+    app.color_save = Button(
+        app,
+        text="Save",
+        command=lambda: set_background(
+            app.color_app.get(),
+            [root] + [
+                window for window in root.winfo_children()
+                if isinstance(window, Toplevel)],),)
 
     # Placement des elements sur la grille
     app.api_box.grid(row=1, column=1, columnspan=7, rowspan=2)
     app.save_api.grid(row=1, column=8, columnspan=2, rowspan=2)
     app.selec_agent.grid(row=3, column=1, columnspan=7)
+    app.color_app.grid(row=3, column=8, columnspan=2, rowspan=2)
+    app.color_save.grid(row=3, column=10, columnspan=2, rowspan=2)
 
 # Boucle principale de l'application
 main = Window()
